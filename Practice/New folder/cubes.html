@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Dark Liquid Glass Navigation</title>
+    <style>
+        :root {
+            /* iOS dark material uses deep translucent charcoal layers */
+            --ios-dark-glass: rgba(28, 28, 30, 0.65);
+            --ios-blur: 24px;
+
+            /* The physics transition curve that handles the elastic morphing motion */
+            --liquid-transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+                width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #08070d;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- HERO BACKGROUND SECTION --- */
+        .hero-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* REPLACE THE URL BELOW WITH YOUR OWN IMAGE LINK */
+            background-image: url('C:\\Users\\jiten\\OneDrive\\Desktop\\Java Codingal\\Practice\\image.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        /* Dark vignette overlay to make text readable and pop the glass menu */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(8, 7, 13, 0.2) 0%, rgba(8, 7, 13, 0.85) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* --- FLOATING LIQUID GLASS NAVIGATION --- */
+        .floating-nav {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px;
+            border-radius: 99px;
+            background: var(--ios-dark-glass);
+            z-index: 9999;
+
+            /* Apple-accurate backdrop filtration system */
+            backdrop-filter: blur(var(--ios-blur)) saturate(210%);
+            -webkit-backdrop-filter: blur(var(--ios-blur)) saturate(210%);
+
+            /* Simulated 0.5px sharp iOS boundary frame */
+            border: 0.5px solid rgba(255, 255, 255, 0.12);
+            box-shadow:
+                0 16px 40px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            /* Micro top bezel shine */
+        }
+
+        /* iOS SF-Pro Styled Links */
+        .nav-item {
+            position: relative;
+            z-index: 2;
+            color: rgba(255, 255, 255, 0.5);
+            /* Secondary system text color */
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: -0.2px;
+            padding: 10px 22px;
+            border-radius: 99px;
+            transition: color 0.25s ease, transform 0.1s ease;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        /* System Accent on Active / Hover States */
+        .nav-item:hover,
+        .nav-item.active {
+            color: #ffffff;
+            /* Primary system text color */
+        }
+
+        /* Micro-interaction: Scale down slightly when pressed */
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* The Glossy Liquid Fluid Layer */
+        .nav-indicator {
+            position: absolute;
+            top: 6px;
+            left: 0;
+            height: calc(100% - 12px);
+            /* Brighter iOS material layer for the tracking capsule */
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 99px;
+            z-index: 1;
+            pointer-events: none;
+
+            /* Applies the liquid/molten blending distortion to the element container */
+            filter: url(#ios-liquid-goo);
+
+            backdrop-filter: brightness(1.2) contrast(1.1);
+            -webkit-backdrop-filter: brightness(1.2) contrast(1.1);
+
+            /* Liquid edge micro-definition */
+            border: 0.5px solid rgba(255, 255, 255, 0.2);
+            box-shadow:
+                inset 0 1px 2px rgba(255, 255, 255, 0.1),
+                0 4px 12px rgba(0, 0, 0, 0.25);
+
+            transition: var(--liquid-transition);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background section containing your image -->
+    <section class="hero-container">
+        <div class="hero-image"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>All about Cubes</h1>
+            <p>Here are some interesting facts about cubes!</p>
+        </div>
+    </section>
+
+    <!-- Floating Navigation Structure with integrated page links -->
+    <nav class="floating-nav">
+        <div class="nav-indicator"></div>
+        <a href="index.html" class="nav-item">Home</a>
+        <a href="history.html" class="nav-item">History</a>
+        <a href="cubes.html" class="nav-item active">Cubes</a>
+        <a href="contact.html" class="nav-item">Contact</a>
+    </nav>
+
+    <!-- Liquid Blur & Matrix Filter (Hidden From Layout) -->
+    <svg style="visibility: hidden; position: absolute;" width="0" height="0">
+        <defs>
+            <filter id="ios-liquid-goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
+                    result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Dynamic Interaction Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const nav = document.querySelector(".floating-nav");
+            const items = document.querySelectorAll(".nav-item");
+            const indicator = document.querySelector(".nav-indicator");
+
+            function moveIndicator(element) {
+                const navRect = nav.getBoundingClientRect();
+                const elRect = element.getBoundingClientRect();
+
+                // Target left offset absolute positions relative to parent bounds
+                const leftPosition = elRect.left - navRect.left;
+                const elementWidth = elRect.width;
+
+                // Dynamically translate and shape the active container
+                indicator.style.width = `${elementWidth}px`;
+                indicator.style.transform = `translateX(${leftPosition}px)`;
+            }
+
+            // Initialize positioning on the current pre-set active navigation tab
+            const activeItem = document.querySelector(".nav-item.active");
+            if (activeItem) {
+                moveIndicator(activeItem);
+            }
+
+            // Track cursor position for continuous liquid tracking animation
+            items.forEach((item) => {
+                item.addEventListener("mouseenter", (e) => {
+                    moveIndicator(e.target);
+                });
+
+                item.addEventListener("click", (e) => {
+                    items.forEach((i) => i.classList.remove("active"));
+                    e.target.classList.add("active");
+                    // Smoothly scroll to the clicked target page ID anchor link if wanted
+                    // e.preventDefault();
+                    // const targetId = e.target.getAttribute('href');
+                    // document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            // Snap back to base active position when tracking boundary is exited
+            nav.addEventListener("mouseleave", () => {
+                const currentActive = document.querySelector(".nav-item.active");
+                if (currentActive) {
+                    moveIndicator(currentActive);
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
